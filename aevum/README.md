@@ -7,7 +7,7 @@ Django 4.2 + DRF + SQLite · phone-first workflow (Codespaces-ready).
 ## Features
 - Cinematic login/register — animated starfield with meteors, italic serif wordmark
 - X-style app shell: left sidebar (desktop), bottom tab bar (mobile), right search/API rail
-- Dashboard: 49-day activity heatmap, serif stat cards, badges, upcoming events
+- Dashboard: 49-day activity heatmap, serif stat cards, badges, upcoming events 
 - Notes: CRUD, tags, file attachments, pin, public/private visibility
 - Code Vault: language-tagged snippets, dark editor-styled viewer
 - One-tap GitHub publish for snippets (GitHub Contents API + personal access token)
