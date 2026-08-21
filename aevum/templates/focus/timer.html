@@ -1,0 +1,17 @@
+{% extends 'base.html' %}{% block title %}Focus{% endblock %}{% block page_title %}Focus{% endblock %}
+{% block content %}
+<div class="aev-card text-center rise">
+  <p class="eyebrow mb-1">Deep work session</p>
+  <div class="focus-display" id="focusDisplay">25:00</div>
+  <p class="muted mb-3" style="font-size:.85rem"><span class="focus-ring"></span>Log a session when you finish</p>
+  <form id="focusForm" method="post" action="{% url 'focus_start' %}" class="d-flex gap-2 justify-content-center mb-2" style="max-width:340px;margin-left:auto;margin-right:auto">{% csrf_token %}{{ form.duration_min }}<button class="btn btn-primary">Log session</button></form>
+  <div class="d-flex gap-2 justify-content-center"><button class="btn btn-outline btn-sm" id="custom25">25</button><button class="btn btn-outline btn-sm" id="custom45">45</button><button class="btn btn-outline btn-sm" id="custom60">60</button></div>
+  <hr>
+  <p class="muted" style="font-size:.88rem">Today you have focused <b style="color:var(--ink)">{{ today_min }} minutes</b>.</p>
+</div>
+<div class="panel rise d2">
+  <div class="panel-head"><h3>Recent sessions</h3></div>
+  {% for s in sessions %}<div class="tl-row"><span class="tl-title">{{ s.duration_min }} minutes</span><span class="tl-meta"><span><i class="bi bi-clock"></i>{{ s.started_at|date:"d M · H:i" }}</span>{% if s.note %}<span>{{ s.note }}</span>{% endif %}</span></div>
+  {% empty %}<div class="empty" style="padding:2rem"><i class="bi bi-stopwatch"></i><span class="display-serif">No sessions yet.</span>Start with one 25-minute block.</div>{% endfor %}
+</div>
+{% endblock %}

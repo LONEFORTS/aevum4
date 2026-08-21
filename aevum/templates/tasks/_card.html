@@ -1,0 +1,12 @@
+<div class="task-card">
+  <div class="d-flex justify-content-between align-items-center gap-2"><strong style="font-size:.92rem">{{ t.title }}</strong><span class="prio p-{{ t.priority }}">{{ t.priority }}</span></div>
+  {% if t.description %}<p class="muted mb-0 mt-1" style="font-size:.82rem">{{ t.description|truncatechars:80 }}</p>{% endif %}
+  {% if t.due_date %}<p class="muted mb-0 mt-1" style="font-size:.78rem"><i class="bi bi-calendar3"></i> {{ t.due_date|date:"d M" }}</p>{% endif %}
+  <div class="move-group">
+    {% if t.status != 'todo' %}<a class="btn btn-quiet btn-sm" href="{% url 'task_move' pk=t.pk new_status='todo' %}"><i class="bi bi-arrow-left"></i> Todo</a>{% endif %}
+    {% if t.status != 'doing' %}<a class="btn btn-quiet btn-sm" href="{% url 'task_move' pk=t.pk new_status='doing' %}"><i class="bi bi-arrow-repeat"></i> Doing</a>{% endif %}
+    {% if t.status != 'done' %}<a class="btn btn-quiet btn-sm" style="color:var(--green)" href="{% url 'task_move' pk=t.pk new_status='done' %}"><i class="bi bi-check2"></i> Done</a>{% endif %}
+    <a class="icon-link" href="{% url 'task_edit' pk=t.pk %}"><i class="bi bi-pencil"></i></a>
+    <a class="icon-link danger" href="{% url 'task_delete' pk=t.pk %}"><i class="bi bi-trash3"></i></a>
+  </div>
+</div>

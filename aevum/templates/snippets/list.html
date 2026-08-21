@@ -1,0 +1,20 @@
+{% extends 'base.html' %}{% block title %}Code Vault{% endblock %}{% block page_title %}Code Vault{% endblock %}
+{% block top_actions %}<a class="btn btn-primary btn-sm" href="{% url 'snippet_create' %}"><i class="bi bi-plus-lg"></i> New snippet</a>{% endblock %}
+{% block content %}
+<form class="d-flex gap-2 mb-3 rise" method="get">
+  <input class="form-control" name="q" value="{{ q }}" placeholder="Search code">
+  <select class="form-select" name="lang" style="max-width:170px"><option value="">All languages</option>{% for code,label in languages %}<option value="{{ code }}" {% if lang == code %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+  <button class="btn btn-outline btn-sm">Filter</button>
+</form>
+<div class="panel rise d1">
+  {% for s in snippets %}
+  <a class="tl-row" href="{% url 'snippet_detail' pk=s.pk %}">
+    <span class="tl-title">{{ s.title }} <span class="lang-chip">{{ s.language }}</span></span>
+    {% if s.description %}<span class="tl-excerpt">{{ s.description|truncatechars:110 }}</span>{% endif %}
+    <span class="tl-meta"><span><i class="bi bi-clock"></i>{{ s.updated_at|date:"d M" }}</span>{% if s.last_pushed_to %}<span style="color:var(--green)"><i class="bi bi-github"></i> pushed</span>{% endif %}</span>
+  </a>
+  {% empty %}
+  <div class="empty"><i class="bi bi-code-square"></i><span class="display-serif">Your vault is empty.</span>Save algorithms, lab programs and snippets — then push them to GitHub.<div class="mt-3"><a class="btn btn-primary btn-sm" href="{% url 'snippet_create' %}">Save first snippet</a></div></div>
+  {% endfor %}
+</div>
+{% endblock %}

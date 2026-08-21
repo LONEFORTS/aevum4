@@ -1,0 +1,17 @@
+{% extends 'base.html' %}{% block title %}{{ snippet.title }}{% endblock %}{% block page_title %}Snippet{% endblock %}
+{% block top_actions %}
+<a class="btn btn-primary btn-sm" href="{% url 'snippet_publish' pk=snippet.pk %}"><i class="bi bi-github"></i> Publish</a>
+<a class="btn btn-outline btn-sm" href="{% url 'snippet_edit' pk=snippet.pk %}"><i class="bi bi-pencil"></i></a>
+<a class="btn btn-danger-o btn-sm" href="{% url 'snippet_delete' pk=snippet.pk %}"><i class="bi bi-trash3"></i></a>
+{% endblock %}
+{% block content %}
+<a class="crumb rise" href="{% url 'snippets_list' %}"><i class="bi bi-arrow-left"></i> Code Vault</a>
+<div class="aev-card rise d1">
+  <h2 class="detail-title">{{ snippet.title }}</h2>
+  <div class="mt-1 mb-2"><span class="lang-chip">{{ snippet.language }}</span></div>
+  {% if snippet.description %}<p class="muted">{{ snippet.description }}</p>{% endif %}
+  <pre class="code-full"><code>{{ snippet.code }}</code></pre>
+  {% if snippet.labels_csv %}<div class="mt-1">{% for lab in snippet.labels_csv|split:"," %}<span class="tag">{{ lab }}</span>{% endfor %}</div>{% endif %}
+  {% if snippet.last_pushed_to %}<hr><p class="muted" style="font-size:.85rem"><i class="bi bi-github" style="color:var(--green)"></i> Published: <a href="{{ snippet.last_pushed_to }}" target="_blank">{{ snippet.last_pushed_to }}</a>{% if snippet.last_pushed_at %} · {{ snippet.last_pushed_at|date:"d M Y H:i" }}{% endif %}</p>{% endif %}
+</div>
+{% endblock %}

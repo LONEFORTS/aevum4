@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block title %}{% if task %}Edit task{% else %}New task{% endif %}{% endblock %}{% block page_title %}{% if task %}Edit task{% else %}New task{% endif %}{% endblock %}
+{% block content %}
+<a class="crumb rise" href="{% url 'tasks_board' %}"><i class="bi bi-arrow-left"></i> Board</a>
+<form method="post" class="form-card rise d1">{% csrf_token %}{{ form.as_p }}<button class="btn btn-primary w-100">Save task</button></form>
+{% endblock %}

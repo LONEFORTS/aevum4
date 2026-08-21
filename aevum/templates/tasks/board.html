@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% block title %}Tasks{% endblock %}{% block page_title %}Tasks{% endblock %}
+{% block top_actions %}<a href="{% url 'task_create' %}" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> New task</a>{% endblock %}
+{% block content %}
+<div class="row rise d1">
+  <div class="col-md-4"><div class="kanban"><h5><i class="bi bi-circle"></i> To do <span class="count">{{ todo|length }}</span></h5>{% for t in todo %}{% include 'tasks/_card.html' with t=t %}{% empty %}<p class="muted" style="padding:.5rem;font-size:.85rem">Clear.</p>{% endfor %}</div></div>
+  <div class="col-md-4"><div class="kanban"><h5><i class="bi bi-arrow-repeat"></i> Doing <span class="count">{{ doing|length }}</span></h5>{% for t in doing %}{% include 'tasks/_card.html' with t=t %}{% empty %}<p class="muted" style="padding:.5rem;font-size:.85rem">Nothing in progress.</p>{% endfor %}</div></div>
+  <div class="col-md-4"><div class="kanban"><h5><i class="bi bi-check2-circle"></i> Done <span class="count">{{ done|length }}</span></h5>{% for t in done %}{% include 'tasks/_card.html' with t=t %}{% empty %}<p class="muted" style="padding:.5rem;font-size:.85rem">Nothing finished yet.</p>{% endfor %}</div></div>
+</div>
+{% endblock %}

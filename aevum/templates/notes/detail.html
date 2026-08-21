@@ -1,0 +1,20 @@
+{% extends 'base.html' %}{% block title %}{{ note.title }}{% endblock %}{% block page_title %}Note{% endblock %}
+{% block top_actions %}
+<a class="btn btn-outline btn-sm" href="{% url 'note_edit' pk=note.pk %}"><i class="bi bi-pencil"></i> Edit</a>
+<a class="btn btn-danger-o btn-sm" href="{% url 'note_delete' pk=note.pk %}"><i class="bi bi-trash3"></i></a>
+{% endblock %}
+{% block content %}
+<a class="crumb rise" href="{% url 'notes_list' %}"><i class="bi bi-arrow-left"></i> All notes</a>
+<article class="aev-card rise d1">
+  <h2 class="detail-title">{{ note.title }}{% if note.pinned %} <i class="bi bi-pin-angle-fill" style="color:var(--gold);font-size:.7em"></i>{% endif %}</h2>
+  <p class="muted mt-1" style="font-size:.82rem">Updated {{ note.updated_at|date:"d M Y · H:i" }}</p>
+  <hr>
+  <div class="aev-content" style="font-size:1rem;line-height:1.7">{{ note.content|linebreaksbr }}</div>
+  {% if note.tags.exists %}<div class="mt-3">{% for t in note.tags.all %}<span class="tag">{{ t.name }}</span>{% endfor %}</div>{% endif %}
+  {% if note.files.exists %}
+  <hr>
+  <div class="section-label">Attachments</div>
+  {% for f in note.files.all %}<a class="badge-chip mb-1" href="{{ f.file.url }}" target="_blank"><i class="bi bi-paperclip" style="color:var(--blue)"></i>{{ f.original_name }}</a>{% endfor %}
+  {% endif %}
+</article>
+{% endblock %}

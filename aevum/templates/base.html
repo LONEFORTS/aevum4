@@ -1,0 +1,76 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Aevum{% endblock %} — Aevum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,500;1,700;1,800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="app-side">
+    <a class="side-brand" href="{% url 'dashboard' %}"><span class="dot"></span>Aevum</a>
+    <nav class="side-nav">
+      <a class="side-link {% if request.path == '/dashboard/' %}active{% endif %}" href="{% url 'dashboard' %}" style="animation-delay:.02s"><i class="bi bi-house-door"></i><span>Home</span></a>
+      <a class="side-link {% if '/notes' in request.path %}active{% endif %}" href="{% url 'notes_list' %}" style="animation-delay:.05s"><i class="bi bi-journal-text"></i><span>Notes</span></a>
+      <a class="side-link {% if '/snippets' in request.path %}active{% endif %}" href="{% url 'snippets_list' %}" style="animation-delay:.08s"><i class="bi bi-code-slash"></i><span>Code Vault</span></a>
+      <a class="side-link {% if '/tasks' in request.path %}active{% endif %}" href="{% url 'tasks_board' %}" style="animation-delay:.11s"><i class="bi bi-kanban"></i><span>Tasks</span></a>
+      <a class="side-link {% if '/events' in request.path %}active{% endif %}" href="{% url 'events_calendar' %}" style="animation-delay:.14s"><i class="bi bi-calendar3"></i><span>Calendar</span></a>
+      <a class="side-link {% if '/focus' in request.path %}active{% endif %}" href="{% url 'focus_timer' %}" style="animation-delay:.17s"><i class="bi bi-stopwatch"></i><span>Focus</span></a>
+      <a class="side-link {% if '/achievements' in request.path %}active{% endif %}" href="{% url 'achievements' %}" style="animation-delay:.2s"><i class="bi bi-award"></i><span>Achievements</span></a>
+      <a class="side-link {% if '/share' in request.path %}active{% endif %}" href="{% url 'share_settings' %}" style="animation-delay:.23s"><i class="bi bi-share"></i><span>Share</span></a>
+      <a class="side-link {% if '/profile' in request.path %}active{% endif %}" href="{% url 'profile' %}" style="animation-delay:.26s"><i class="bi bi-person"></i><span>Profile</span></a>
+    </nav>
+    <div class="side-user">
+      <span class="avatar">{{ user.username|first|upper }}</span>
+      <span><span class="name">{{ user.username }}</span><br><span class="handle">@{{ user.username }}</span></span>
+      <form action="{% url 'logout' %}" method="post" style="margin-left:auto">{% csrf_token %}<button class="side-logout" title="Log out" style="background:none;border:none;cursor:pointer"><i class="bi bi-box-arrow-right"></i></button></form>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <header class="main-top">
+      <h1 class="page-title">{% block page_title %}Home{% endblock %}</h1>
+      <div class="top-actions">{% block top_actions %}{% endblock %}</div>
+    </header>
+    {% if messages %}
+      <div style="padding-top:.9rem">
+        {% for m in messages %}<div class="aev-alert aev-alert-{{ m.tags|default:'info' }}">{{ m }}</div>{% endfor %}
+      </div>
+    {% endif %}
+    <div class="main-body">
+      {% block content %}{% endblock %}
+    </div>
+    <div class="aev-footer">Aevum · crafted for students</div>
+  </main>
+
+  <aside class="app-right">
+    <form method="get" action="{% url 'search' %}">
+      <input class="right-search" name="q" placeholder="Search Aevum" value="{{ q|default:'' }}">
+    </form>
+    <div class="right-card">
+      <h4><i class="bi bi-github" style="color:var(--blue)"></i> Publish to GitHub</h4>
+      <p>Open any snippet in your Code Vault and push it to a repository in one tap. Add your token under Share settings first.</p>
+    </div>
+    <div class="right-card">
+      <h4><i class="bi bi-braces" style="color:var(--green)"></i> REST API</h4>
+      <p>Live endpoints at <a href="/api/notes/">/api/notes/</a>, <a href="/api/snippets/">/api/snippets/</a> and <a href="/api/stats/">/api/stats/</a>.</p>
+    </div>
+  </aside>
+</div>
+
+<nav class="bottom-tabs">
+  <a href="{% url 'dashboard' %}"><i class="bi bi-house-door"></i>Home</a>
+  <a href="{% url 'notes_list' %}"><i class="bi bi-journal-text"></i>Notes</a>
+  <a href="{% url 'snippets_list' %}"><i class="bi bi-code-slash"></i>Code</a>
+  <a href="{% url 'tasks_board' %}"><i class="bi bi-kanban"></i>Tasks</a>
+  <a href="{% url 'events_calendar' %}"><i class="bi bi-calendar3"></i>Calendar</a>
+</nav>
+<script src="{% static 'js/app.js' %}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block title %}Confirm delete{% endblock %}{% block page_title %}Delete {{ label|lower }}{% endblock %}
+{% block content %}
+<div class="form-card text-center rise" style="max-width:460px;margin:2rem auto">
+  <div style="font-size:2rem;color:var(--red);margin-bottom:.5rem"><i class="bi bi-exclamation-circle"></i></div>
+  <h2 class="display-serif" style="font-size:1.4rem">Delete this {{ label|lower }}?</h2>
+  <p class="muted mt-1 mb-3" style="font-size:.9rem">"{{ obj }}" will be removed permanently. This cannot be undone.</p>
+  <form method="post">{% csrf_token %}
+    <button class="btn btn-danger-o w-100">Yes, delete it</button>
+    <a class="btn btn-outline w-100 mt-2" href="{% url back %}">Keep it</a>
+  </form>
+</div>
+{% endblock %}

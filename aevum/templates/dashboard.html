@@ -1,0 +1,63 @@
+{% extends 'base.html' %}{% block title %}Home{% endblock %}{% block page_title %}Home{% endblock %}
+{% block top_actions %}
+<a class="btn btn-primary btn-sm" href="{% url 'note_create' %}"><i class="bi bi-plus-lg"></i> Note</a>
+<a class="btn btn-outline btn-sm" href="{% url 'snippet_create' %}"><i class="bi bi-code-slash"></i> Snippet</a>
+{% endblock %}
+{% block content %}
+<div class="rise">
+  <p class="eyebrow">{{ now|date:"l · d F Y" }}</p>
+  <h2 class="display-serif" style="font-size:1.7rem">Good to see you, {{ user.username }}.</h2>
+</div>
+
+<div class="row mt-3 rise d1">
+  <div class="col-6 col-md-3"><div class="stat blue"><span class="lbl">Notes</span><span class="num">{{ notes_count }}</span><i class="bi bi-journal-text"></i></div></div>
+  <div class="col-6 col-md-3"><div class="stat"><span class="lbl">Snippets</span><span class="num">{{ snippets_count }}</span><i class="bi bi-code-slash"></i></div></div>
+  <div class="col-6 col-md-3"><div class="stat green"><span class="lbl">Tasks done</span><span class="num">{{ tasks_done }}</span><i class="bi bi-check2-circle"></i></div></div>
+  <div class="col-6 col-md-3"><div class="stat gold"><span class="lbl">Focus today</span><span class="num">{{ focus_today }}</span><i class="bi bi-stopwatch"></i></div></div>
+</div>
+
+<div class="aev-card rise d2">
+  <div class="section-label">Activity — last 49 days</div>
+  <div class="heatmap">
+    {% for d, count in heatmap.items %}<span class="cell c{{ count }}" title="{{ d }} — {{ count }} actions"></span>{% endfor %}
+  </div>
+  <p class="muted mt-2" style="font-size:.78rem">Darker cells mean quieter days. Notes, snippets and focus sessions all count.</p>
+</div>
+
+<div class="row rise d3">
+  <div class="col-md-7">
+    <div class="aev-card mb-0">
+      <div class="section-label">Quick actions</div>
+      <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-primary btn-sm" href="{% url 'note_create' %}"><i class="bi bi-journal-plus"></i> New note</a>
+        <a class="btn btn-outline btn-sm" href="{% url 'snippet_create' %}"><i class="bi bi-file-earmark-code"></i> New snippet</a>
+        <a class="btn btn-outline btn-sm" href="{% url 'task_create' %}"><i class="bi bi-plus-square"></i> New task</a>
+        <a class="btn btn-outline btn-sm" href="{% url 'event_create' %}"><i class="bi bi-calendar-plus"></i> New event</a>
+        <a class="btn btn-outline btn-sm" href="{% url 'focus_timer' %}"><i class="bi bi-stopwatch"></i> Focus 25</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="aev-card mb-0">
+      <div class="section-label">Latest badges</div>
+      {% if achievements %}
+        <div class="d-flex flex-wrap gap-1">{% for a in achievements %}<span class="badge-chip"><i class="bi bi-award"></i>{{ a.title }}</span>{% endfor %}</div>
+      {% else %}
+        <p class="muted" style="font-size:.88rem">Write a note, save a snippet or finish a focus session to earn your first badge.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="panel rise d4">
+  <div class="panel-head"><h3>Upcoming</h3><a class="btn btn-quiet btn-sm" href="{% url 'events_calendar' %}">Calendar <i class="bi bi-arrow-right"></i></a></div>
+  {% for e in upcoming_events %}
+    <a class="tl-row" href="{% url 'events_calendar' %}">
+      <span class="tl-title">{{ e.title }}</span>
+      <span class="tl-meta"><span><i class="bi bi-calendar3"></i>{{ e.date|date:"d M Y" }}</span><span><i class="bi bi-tag"></i>{{ e.get_event_type_display }}</span></span>
+    </a>
+  {% empty %}
+    <div class="empty" style="padding:2rem"><i class="bi bi-calendar-x"></i><span class="display-serif">Nothing scheduled.</span>Add exams, classes and deadlines to see them here.</div>
+  {% endfor %}
+</div>
+{% endblock %}

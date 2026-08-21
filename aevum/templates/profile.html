@@ -1,0 +1,22 @@
+{% extends 'base.html' %}{% block title %}Profile{% endblock %}{% block page_title %}Profile{% endblock %}
+{% block top_actions %}<a class="btn btn-outline btn-sm" href="{% url 'share_settings' %}"><i class="bi bi-gear"></i> Settings</a>{% endblock %}
+{% block content %}
+<div class="profile-banner rise"></div>
+<div class="profile-head rise d1">
+  <span class="avatar">{{ user.username|first|upper }}</span>
+  <div><div class="profile-name">{{ user.username }}</div><div class="muted" style="font-size:.85rem">@{{ user.username }}</div></div>
+</div>
+<p class="rise d2" style="padding:0 1.2rem;margin-top:.9rem">{{ profile.bio|default:"Student. Builder. Documenting the journey on Aevum." }}</p>
+<div class="profile-stats rise d2">
+  <span><b>{{ stats.notes }}</b> notes</span>
+  <span><b>{{ stats.snippets }}</b> snippets</span>
+  <span><b>{{ stats.tasks }}</b> tasks</span>
+  <span><b>{{ stats.events }}</b> events</span>
+  <span><b>{{ stats.focus }}</b> focus sessions</span>
+</div>
+<div class="aev-card rise d3 mt-3">
+  <div class="section-label">Your public page</div>
+  <p class="muted" style="font-size:.88rem">Publish selected notes and code to a page anyone can open — perfect for evaluators and recruiters.</p>
+  <a class="btn btn-primary btn-sm mt-2" href="{% url 'share_settings' %}"><i class="bi bi-share"></i> Manage public profile</a>
+</div>
+{% endblock %}

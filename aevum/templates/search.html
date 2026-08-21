@@ -1,0 +1,18 @@
+{% extends 'base.html' %}{% block title %}Search{% endblock %}{% block page_title %}Search{% endblock %}
+{% block content %}
+<form method="get" class="mb-3 rise"><input class="form-control" name="q" value="{{ q }}" placeholder="Search notes, code and tasks" autofocus></form>
+{% if q %}<p class="muted rise d1" style="font-size:.85rem">{{ total }} result{{ total|pluralize }} for "{{ q }}"</p>{% endif %}
+{% if notes %}
+<div class="panel rise d1"><div class="panel-head"><h3><i class="bi bi-journal-text" style="color:var(--blue)"></i> Notes</h3></div>
+{% for n in notes %}<a class="tl-row" href="{% url 'note_detail' pk=n.pk %}"><span class="tl-title">{{ n.title }}</span><span class="tl-excerpt">{{ n.content|truncatechars:110 }}</span></a>{% endfor %}</div>
+{% endif %}
+{% if snippets %}
+<div class="panel rise d2"><div class="panel-head"><h3><i class="bi bi-code-slash" style="color:var(--green)"></i> Code Vault</h3></div>
+{% for s in snippets %}<a class="tl-row" href="{% url 'snippet_detail' pk=s.pk %}"><span class="tl-title">{{ s.title }} <span class="lang-chip">{{ s.language }}</span></span></a>{% endfor %}</div>
+{% endif %}
+{% if tasks %}
+<div class="panel rise d3"><div class="panel-head"><h3><i class="bi bi-kanban" style="color:var(--gold)"></i> Tasks</h3></div>
+{% for t in tasks %}<a class="tl-row" href="{% url 'tasks_board' %}"><span class="tl-title">{{ t.title }}</span><span class="tl-meta"><span><i class="bi bi-circle"></i>{{ t.get_status_display }}</span></span></a>{% endfor %}</div>
+{% endif %}
+{% if q and not total %}<div class="empty rise d2"><i class="bi bi-search"></i><span class="display-serif">No matches.</span>Try a different keyword.</div>{% endif %}
+{% endblock %}

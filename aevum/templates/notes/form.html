@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% block title %}{% if mode == 'create' %}New note{% else %}Edit note{% endif %}{% endblock %}{% block page_title %}{% if mode == 'create' %}New note{% else %}Edit note{% endif %}{% endblock %}
+{% block content %}
+<a class="crumb rise" href="{% url 'notes_list' %}"><i class="bi bi-arrow-left"></i> All notes</a>
+<form method="post" enctype="multipart/form-data" class="form-card rise d1">
+  {% csrf_token %}{{ form.as_p }}
+  <p><label>Tags</label><input class="form-control" name="tag_names" value="{% if note %}{% for t in note.tags.all %}{{ t.name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}" placeholder="math, physics, revision"></p>
+  <p><label>Attachments</label><input class="form-control" name="files" type="file" multiple></p>
+  <button class="btn btn-primary w-100">Save note</button>
+</form>
+{% endblock %}

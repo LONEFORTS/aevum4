@@ -1,0 +1,20 @@
+{% extends 'base.html' %}{% load extras %}{% block title %}Calendar{% endblock %}{% block page_title %}Calendar · {{ month_label }}{% endblock %}
+{% block top_actions %}
+<a class="btn btn-quiet btn-sm" href="?month={{ prev }}"><i class="bi bi-chevron-left"></i></a>
+<a class="btn btn-quiet btn-sm" href="?month={{ next }}"><i class="bi bi-chevron-right"></i></a>
+<a class="btn btn-primary btn-sm" href="{% url 'event_create' %}"><i class="bi bi-plus-lg"></i> Event</a>
+{% endblock %}
+{% block content %}
+<h2 class="display-serif rise" style="font-size:1.6rem;margin-bottom:.8rem">{{ month_label }}</h2>
+<div class="aev-cal rise d1">
+  <div class="cal-head">Mon</div><div class="cal-head">Tue</div><div class="cal-head">Wed</div><div class="cal-head">Thu</div><div class="cal-head">Fri</div><div class="cal-head">Sat</div><div class="cal-head">Sun</div>
+  {% for d in cells %}
+    {% if d %}
+      <div class="cal-cell"><div class="cal-day">{{ d.day }}</div>
+        {% with evs=month_events|get:d %}{% for e in evs %}<span class="cal-event" style="background:{{ e.color }}">{{ e.title }}</span>{% endfor %}{% endwith %}
+      </div>
+    {% else %}<div class="cal-cell empty"></div>{% endif %}
+  {% endfor %}
+</div>
+<p class="muted mt-3 rise d2" style="font-size:.85rem">Exams, classes, assignments and reminders — color-coded on one board.</p>
+{% endblock %}

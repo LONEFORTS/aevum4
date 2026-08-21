@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block title %}New event{% endblock %}{% block page_title %}New event{% endblock %}
+{% block content %}
+<a class="crumb rise" href="{% url 'events_calendar' %}"><i class="bi bi-arrow-left"></i> Calendar</a>
+<form method="post" class="form-card rise d1">{% csrf_token %}{{ form.as_p }}<button class="btn btn-primary w-100">Save event</button></form>
+{% endblock %}

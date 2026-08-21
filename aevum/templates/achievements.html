@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% block title %}Achievements{% endblock %}{% block page_title %}Achievements{% endblock %}
+{% block content %}
+<p class="muted rise" style="font-size:.9rem">Badges are awarded automatically as you write, code, finish tasks and complete focus sessions.</p>
+<div class="row mt-2 rise d1">
+  {% for a in earned %}
+  <div class="col-6 col-md-4 col-lg-3"><div class="aev-card ach-card unlocked mb-0"><div class="b-icon"><i class="bi bi-award-fill"></i></div><h5 style="font-size:.95rem">{{ a.title }}</h5><small>Earned {{ a.earned_at|date:"d M Y" }}</small></div></div>
+  {% endfor %}
+  {% for code,title,icon,rule in locked %}
+  <div class="col-6 col-md-4 col-lg-3"><div class="aev-card ach-card locked mb-0"><div class="b-icon"><i class="bi bi-lock"></i></div><h5 style="font-size:.95rem">{{ title }}</h5><small>Locked</small></div></div>
+  {% endfor %}
+</div>
+{% if not earned %}<div class="empty rise d2"><i class="bi bi-trophy"></i><span class="display-serif">Your first badge is one action away.</span>Save a note or a snippet and it appears here instantly.</div>{% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}{% block title %}Notes{% endblock %}{% block page_title %}Notes{% endblock %}
+{% block top_actions %}<a href="{% url 'note_create' %}" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> New note</a>{% endblock %}
+{% block content %}
+<form method="get" class="mb-3 rise"><input class="form-control" name="q" value="{{ q }}" placeholder="Search your notes"></form>
+<div class="panel rise d1">
+  {% for n in notes %}
+  <a class="tl-row" href="{% url 'note_detail' pk=n.pk %}">
+    <span class="tl-title">{{ n.title }}{% if n.pinned %}<i class="bi bi-pin-angle-fill pin"></i>{% endif %}</span>
+    <span class="tl-excerpt">{{ n.content|truncatechars:130 }}</span>
+    <span class="tl-meta"><span><i class="bi bi-clock"></i>{{ n.updated_at|date:"d M" }}</span>{% if n.tags.exists %}<span><i class="bi bi-hash"></i>{% for t in n.tags.all|slice:":3" %}{{ t.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>{% endif %}{% if n.files.exists %}<span><i class="bi bi-paperclip"></i>{{ n.files.count }}</span>{% endif %}</span>
+  </a>
+  {% empty %}
+  <div class="empty"><i class="bi bi-journal"></i><span class="display-serif">No notes yet.</span>Capture your first idea — it takes seconds.<div class="mt-3"><a class="btn btn-primary btn-sm" href="{% url 'note_create' %}">Write a note</a></div></div>
+  {% endfor %}
+</div>
+{% endblock %}

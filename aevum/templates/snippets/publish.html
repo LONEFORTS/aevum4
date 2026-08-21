@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% load extras %}{% block title %}Publish{% endblock %}{% block page_title %}Publish to GitHub{% endblock %}
+{% block content %}
+<a class="crumb rise" href="{% url 'snippet_detail' pk=snippet.pk %}"><i class="bi bi-arrow-left"></i> Back to snippet</a>
+<div class="form-card rise d1">
+  <h3 class="display-serif" style="font-size:1.3rem"><i class="bi bi-github" style="font-style:normal"></i> Publish "{{ snippet.title }}"</h3>
+  <p class="muted mt-1 mb-3" style="font-size:.88rem">This creates or updates <code>aevum/{{ snippet.slug|default:snippet.title|slugify }}.{{ snippet.language }}</code> in the target repository using your saved token.</p>
+  <form method="post">{% csrf_token %}{{ form.as_p }}
+    <button class="btn btn-primary w-100"><i class="bi bi-github"></i> Publish now</button>
+  </form>
+  <p class="muted mt-2" style="font-size:.8rem"><i class="bi bi-info-circle"></i> No token saved? Add one under <a href="{% url 'share_settings' %}">Share settings</a> first.</p>
+</div>
+{% endblock %}
